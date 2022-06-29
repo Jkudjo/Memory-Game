@@ -68,8 +68,10 @@ cardArray.sort(() => 0.5 - Math.random())
 
 
 const gridDisplay = document.querySelector("#grid")
-const cardsChosen=[]
-const cardsChosenIds=[]
+const resultDisplay =document.querySelector('#result')
+let cardsChosen=[]
+let cardsChosenIds=[]
+const card1 =[]
 
 // console.log(gridDisplay)
 
@@ -92,15 +94,42 @@ createBoard()
 
 function checkMatch() {
 
-  const cards= document.querySelectorAll('img')
+  const cards= document.querySelectorAll('img')  
+  const optionOneId =cardsChosen[0]
+  const optionTwoId = cardsChosen[1]
+
+  console.log(cards)
+  if(optionOneId == optionTwoId) {
+    alert("you have clicked the same image!")
+  }
 
 
   console.log('check for match')
   if(cardsChosen[0]==cardsChosen[1]){
-    alert('you found a match')
 
-    cards[cardsChosen[0].setAttribute('src','assets/blank.jpg')]
+    alert('you found a match') 
+
+    cards[optionOneId].setAttribute('src','assets/white.png')
+    cards[optionTwoId].setAttribute('src','assets/white.png')
+    cards[optionOneId].removeEventListener('click' ,flipCard)
+    cards[optionTwoId].removeEventListener('click' ,flipCard)
+    
+    cardsWon.push(cardsChosen)
    
+  }else{
+    cards[optionOneId].setAttribute('src','assets/blank.jpg')
+    cards[optionTwoId].setAttribute('src','assets/blank.jpg')
+
+    alert("Sorry, Try again!")
+
+  }
+  resultDisplay.textContent =cardsWon.length
+  cardsChosen=[]
+  cardsChosenIds=[]
+
+  if(cardsWon.length==cardArray.length/2){
+    resultDisplay.innerHTML = "Congratulation, You found them all"
+
   }
 
   
